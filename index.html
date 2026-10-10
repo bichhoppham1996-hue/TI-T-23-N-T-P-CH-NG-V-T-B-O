@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu Học Tập Tương Tác - Ôn Tập Chương V: Tế Bào</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-gradient: linear-gradient(135deg, #3b82f6, #4f46e5, #8b5cf6);
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header h2 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .student-info-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .student-info-box input {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .admin-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .admin-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: -30px auto 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-top: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .card.hidden {
+            display: none;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.35rem;
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+        .points-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* SECTION COLORS */
+        #sec-intro { border-top-color: #6366f1; }
+        #sec-mcq { border-top-color: #3b82f6; }
+        #sec-fill { border-top-color: #10b981; }
+        #sec-tf { border-top-color: #f59e0b; }
+        #sec-match { border-top-color: #ec4899; }
+        #sec-drag { border-top-color: #8b5cf6; }
+        #sec-video { border-top-color: #ef4444; }
+
+        .objectives-list, .guide-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .objectives-list li, .guide-list li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+        .objectives-list li::before { content: "🎯"; position: absolute; left: 0; top: 0; }
+        .guide-list li::before { content: "✍️"; position: absolute; left: 0; top: 0; }
+
+        .question-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .question-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .question-title { font-weight: 600; margin-bottom: 0.75rem; color: #334155; }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; }
+        .option-label {
+            border: 2px solid var(--border-color); padding: 0.75rem 1rem; border-radius: 8px;
+            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 0.5rem;
+            background: #fafafa; font-size: 0.95rem;
+        }
+        .option-label:hover { border-color: #3b82f6; background: #eff6ff; }
+        .option-label input { cursor: pointer; }
+
+        .fill-text { line-height: 2.2; font-size: 1.05rem; }
+        .fill-container-item { margin-bottom: 1.25rem; }
+        .fill-input {
+            padding: 0.3rem 0.6rem; border: 2px solid var(--border-color); border-radius: 6px;
+            font-size: 1rem; outline: none; transition: all 0.2s; margin: 0 0.25rem; background: #fff;
+        }
+        .fill-input:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+
+        .tf-table { width: 100%; border-collapse: collapse; }
+        .tf-table th, .tf-table td { padding: 0.75rem; border: 1px solid var(--border-color); text-align: left; }
+        .tf-table th { background: #f8fafc; font-weight: 600; }
+        .tf-table td.text-center { text-align: center; }
+
+        .match-container { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .match-col h4 { margin-bottom: 0.75rem; font-size: 1.05rem; color: #475569; }
+        .match-item-a, .match-item-b {
+            background: #f8fafc; border: 1px solid var(--border-color); padding: 0.75rem 1rem;
+            border-radius: 8px; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;
+        }
+        .match-item-b select {
+            padding: 0.4rem; border-radius: 6px; border: 1px solid var(--border-color);
+            font-weight: 600; color: #1e3a8a; background: white; max-width: 150px; outline:none;
+        }
+
+        .drag-drop-area {
+            display: flex; flex-direction: column; gap: 1.5rem; align-items: stretch;
+        }
+        .image-container-wrapper {
+            position: relative; display: flex; flex-direction: column; align-items: center; max-width: 100%; background: #f8fafc;
+            padding: 1.5rem; border-radius: 8px; border: 1px dashed #cbd5e1; margin: 0 auto; width: 100%;
+        }
+        .image-container-wrapper img {
+            max-width: 100%; height: auto; border-radius: 8px; display: block; max-height: 400px; object-fit: contain;
+        }
+        
+        .draggable-items {
+            display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; padding: 1.5rem;
+            background: #fafafa; border-radius: 8px; border: 1px solid var(--border-color); width: 100%;
+        }
+        .drag-item {
+            background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 6px;
+            cursor: grab; font-weight: 500; user-select: none; transition: transform 0.1s, background-color 0.2s; font-size: 1rem;
+        }
+        .drag-item:active { cursor: grabbing; transform: scale(0.95); }
+        .drag-item.selected {
+            border: 2px solid #f59e0b; background: #2563eb; transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.15);
+        }
+
+        .drop-zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .drop-zone-overlay {
+            background: white; border: 1px dashed #94a3b8;
+            border-radius: 8px; padding: 1.5rem 1rem; min-height: 90px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            transition: all 0.2s; cursor: pointer;
+            z-index: 10;
+        }
+        
+        .drop-zone-overlay.drag-over {
+            background: #e0e7ff; border-color: #4f46e5; transform: scale(1.02);
+        }
+        .drop-zone-overlay .zone-label {
+            font-size: 0.95rem; color: #64748b; font-weight: 600; margin-bottom: 0.75rem;
+        }
+        .drop-zone-overlay .dropped-content { font-weight: 600; color: #94a3b8; font-size: 1.05rem; }
+        .drop-zone-overlay[data-current] .dropped-content { color: #1e3a8a; }
+
+        .image-caption {
+            font-size: 0.95rem; color: #64748b; margin-top: 1.5rem; text-align: center;
+        }
+
+        .submit-section { text-align: center; margin: 2rem 0; }
+        .submit-btn {
+            background: var(--primary-gradient); color: white; border: none; padding: 1rem 3rem;
+            font-size: 1.2rem; font-weight: 700; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); transition: all 0.3s ease;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 25px -5px rgba(79, 70, 229, 0.6); }
+
+        .score-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 2px solid #34d399;
+            border-radius: 16px; padding: 1.5rem; text-align: center; margin-bottom: 2rem; display: none;
+        }
+        .score-box h3 { color: #065f46; font-size: 1.75rem; margin-bottom: 0.5rem; }
+        .score-box p { color: #047857; font-size: 1.1rem; font-weight: 600; }
+
+        .remember-card { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
+        .remember-card h3 { color: #b45309; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .remember-list { padding-left: 1.2rem; }
+        .remember-list li { margin-bottom: 0.6rem; color: #78350f; font-weight: 500; }
+
+        .correct-answer { background-color: #d1fae5 !important; border-color: #10b981 !important; color: #065f46 !important; }
+        .incorrect-answer { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .unanswered { border-color: #f59e0b !important; background-color: #fef3c7 !important; }
+        .feedback-icon { margin-left: 0.5rem; font-weight: bold; }
+        .correct-text { color: #065f46; font-weight: bold; font-size: 0.9em; margin-left: 0.5rem; display: inline-block; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem;
+        }
+        .modal-content {
+            background: white; border-radius: 16px; width: 100%; max-width: 650px; max-height: 90vh;
+            overflow-y: auto; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.75rem; }
+        .modal-header h3 { color: #1e3a8a; }
+        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .admin-form-group { margin-bottom: 1rem; }
+        .admin-form-group label { display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; color: #334155; }
+        .admin-form-group input, .admin-form-group textarea, .admin-form-group select {
+            width: 100%; padding: 0.6rem 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; outline: none;
+        }
+        .admin-row {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 0.5fr; gap: 1rem; align-items: center;
+            margin-bottom: 0.75rem; background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color);
+        }
+        .admin-row.disabled { opacity: 0.6; background: #e2e8f0; }
+        .save-admin-btn {
+            background: #10b981; color: white; border: none; padding: 0.75rem 1.5rem; font-weight: 600;
+            border-radius: 8px; cursor: pointer; width: 100%; margin-top: 1rem; font-size: 1rem;
+        }
+        .save-admin-btn:hover { background: #059669; }
+        
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        @media (max-width: 768px) {
+            .match-container { grid-template-columns: 1fr; }
+            .admin-row { grid-template-columns: 1fr; gap: 0.5rem; }
+            #dz-1, #dz-2, #dz-3, #dz-4, #dz-5 { transform: scale(0.8) translateX(0); min-width: 80px; padding: 0.1rem; }
+            .image-container-wrapper { padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <button class="admin-btn" onclick="openAdminModal()"><i class="fa-solid fa-gear"></i> QUẢN TRỊ</button>
+    <h1 id="header-title">ÔN TẬP CHƯƠNG V. TẾ BÀO</h1>
+    <h2 id="header-subtitle">Môn: Khoa học tự nhiên 6 | Lớp: 6</h2>
+    
+    <div class="student-info-box">
+        <input type="text" id="student-name" placeholder="Họ và tên học sinh..." required>
+        <input type="text" id="student-class" placeholder="Lớp..." required>
+    </div>
+</header>
+
+<div class="container">
+
+    <div id="score-result-box" class="score-box">
+        <h3>KẾT QUẢ CỦA EM</h3>
+        <p id="score-display">0 / 10 điểm</p>
+        <p id="score-comment" style="margin-top: 0.5rem; font-size: 0.95rem;"></p>
+    </div>
+
+    <!-- KHU VỰC HD -->
+    <div class="card" id="sec-intro">
+        <div class="card-header">
+            <h3>Mục tiêu & Hướng dẫn làm bài</h3>
+            <span class="points-badge">Cẩm nang</span>
+        </div>
+        <ul class="objectives-list" id="objectives-list">
+            <li>Nêu được khái niệm, chức năng của tế bào.</li>
+            <li>Nhận biết được tế bào là đơn vị cấu trúc của sự sống.</li>
+            <li>Nêu được hình dạng, kích thước và cấu tạo các thành phần chính của tế bào.</li>
+            <li>Phân biệt tế bào nhân sơ, nhân thực; tế bào động vật, thực vật.</li>
+            <li>Nhận biết và nêu được ý nghĩa sự lớn lên và sinh sản của tế bào.</li>
+        </ul>
+        <h4 style="margin-top: 1rem; color: #475569;">Hướng dẫn thao tác:</h4>
+        <ul class="guide-list">
+            <li>Đọc kỹ từng câu hỏi và thao tác trực tiếp (chọn đáp án, điền từ, kéo thả, nối cột) trên phiếu.</li>
+            <li>Đối với phần kéo thả, em có thể <b>kéo</b> từ khóa vào ô trống hoặc <b>bấm</b> chọn từ khóa rồi <b>bấm</b> vào ô tương ứng trên hình.</li>
+            <li>Điền đầy đủ Họ tên, Lớp trước khi bấm "NỘP BÀI & CHẤM ĐIỂM".</li>
+        </ul>
+    </div>
+
+    <!-- KHU VỰC 1 -->
+    <div class="card" id="sec-mcq">
+        <div class="card-header">
+            <h3>Khu vực 1 – Trắc nghiệm nhanh</h3>
+            <span class="points-badge" id="badge-mcq">Điểm tối đa: 2.0</span>
+        </div>
+        <div id="mcq-container"></div>
+    </div>
+
+    <!-- KHU VỰC 2 -->
+    <div class="card" id="sec-fill">
+        <div class="card-header">
+            <h3>Khu vực 2 – Điền khuyết kiến thức</h3>
+            <span class="points-badge" id="badge-fill">Điểm tối đa: 1.5</span>
+        </div>
+        <div class="fill-text" id="fill-container"></div>
+    </div>
+
+    <!-- KHU VỰC 3 -->
+    <div class="card" id="sec-tf">
+        <div class="card-header">
+            <h3>Khu vực 3 – Nhận định Đúng / Sai</h3>
+            <span class="points-badge" id="badge-tf">Điểm tối đa: 1.5</span>
+        </div>
+        <table class="tf-table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Phát biểu</th>
+                    <th class="text-center" style="width: 90px;">Đúng</th>
+                    <th class="text-center" style="width: 90px;">Sai</th>
+                </tr>
+            </thead>
+            <tbody id="tf-container"></tbody>
+        </table>
+    </div>
+
+    <!-- KHU VỰC 4 -->
+    <div class="card" id="sec-match">
+        <div class="card-header">
+            <h3>Khu vực 4 – Nối cột tương ứng</h3>
+            <span class="points-badge" id="badge-match">Điểm tối đa: 1.5</span>
+        </div>
+        <div class="match-container" id="match-container"></div>
+    </div>
+
+    <!-- KHU VỰC 5 -->
+    <div class="card" id="sec-drag">
+        <div class="card-header">
+            <h3>Khu vực 5 – Kéo thả cấu trúc tế bào</h3>
+            <span class="points-badge" id="badge-drag">Điểm tối đa: 2.0</span>
+        </div>
+        
+        <div class="drag-drop-area">
+            <div class="image-container-wrapper" style="margin-bottom: 1.5rem;">
+                <img id="drag-target-image" src="tế bào 1.png" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/800x450/e8f0fe/1e3a8a?text=Chua+tim+thay+file+te+bao+1.png'; this.style.opacity='0.7';" 
+                     alt="Cấu trúc tế bào thực vật">
+                <p class="image-caption">Cấu tạo tế bào thực vật (tham khảo Hình 19.3b)</p>
+            </div>
+
+            <div class="draggable-items" id="draggable-items-box" style="margin-bottom: 1.5rem;">
+                <!-- Items populated by JS -->
+            </div>
+
+            <div class="drop-zones-grid">
+                <div class="drop-zone-overlay" id="dz-1" data-match="Màng tế bào" ondragover="allowDrop(event)" ondragleave="removeDropStyle(event)" ondrop="dropItem(event)">
+                    <span class="zone-label">Vị trí (1)</span>
+                    <span class="dropped-content">Thả hoặc bấm chọn</span>
+                </div>
+                <div class="drop-zone-overlay" id="dz-2" data-match="Nhân" ondragover="allowDrop(event)" ondragleave="removeDropStyle(event)" ondrop="dropItem(event)">
+                    <span class="zone-label">Vị trí (2)</span>
+                    <span class="dropped-content">Thả hoặc bấm chọn</span>
+                </div>
+                <div class="drop-zone-overlay" id="dz-3" data-match="Tế bào chất" ondragover="allowDrop(event)" ondragleave="removeDropStyle(event)" ondrop="dropItem(event)">
+                    <span class="zone-label">Vị trí (3)</span>
+                    <span class="dropped-content">Thả hoặc bấm chọn</span>
+                </div>
+                <div class="drop-zone-overlay" id="dz-4" data-match="Không bào" ondragover="allowDrop(event)" ondragleave="removeDropStyle(event)" ondrop="dropItem(event)">
+                    <span class="zone-label">Vị trí (4)</span>
+                    <span class="dropped-content">Thả hoặc bấm chọn</span>
+                </div>
+                <div class="drop-zone-overlay" id="dz-5" data-match="Lục lạp" ondragover="allowDrop(event)" ondragleave="removeDropStyle(event)" ondrop="dropItem(event)">
+                    <span class="zone-label">Vị trí (5)</span>
+                    <span class="dropped-content">Thả hoặc bấm chọn</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KHU VỰC 6 -->
+    <div class="card" id="sec-video">
+        <div class="card-header">
+            <h3>Khu vực 6 – Xem Video và Điền khuyết</h3>
+            <span class="points-badge" id="badge-video">Điểm tối đa: 1.5</span>
+        </div>
+        <p style="margin-bottom: 1rem; color: #475569;"><i>Xem kĩ đoạn video sau và điền từ thích hợp vào chỗ trống bên dưới:</i></p>
+        <div class="video-wrapper" id="video-box-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-bottom: 1.5rem; background: #000;">
+            <iframe id="lesson-video" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="fill-text" id="video-fill-container">
+            <!-- Items populated by JS -->
+        </div>
+    </div>
+    
+    <div class="submit-section">
+        <button class="submit-btn" onclick="submitAndGrade()"><i class="fa-solid fa-paper-plane"></i> NỘP BÀI & CHẤM ĐIỂM</button>
+    </div>
+
+    <div class="remember-card">
+        <h3><i class="fa-solid fa-lightbulb"></i> Ghi nhớ siêu nhanh</h3>
+        <ul class="remember-list">
+            <li>Mọi cơ thể sống đều được cấu tạo từ <b>tế bào</b>.</li>
+            <li>Tế bào có 3 thành phần chính: <b>màng tế bào</b>, <b>tế bào chất</b> và <b>nhân</b> (hoặc vùng nhân).</li>
+            <li><b>Tế bào thực vật</b> khác tế bào động vật ở chỗ có <b>thành tế bào</b> (giữ hình dạng) và <b>lục lạp</b> (quang hợp).</li>
+            <li>Sự lớn lên và sinh sản của tế bào giúp <b>tăng số lượng, kích thước</b> tế bào, thay thế tế bào già, chết, giúp cơ thể sinh trưởng.</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="modal-overlay" id="admin-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>⚙️ Chế độ Quản trị Giáo viên</h3>
+            <button class="close-modal" onclick="closeAdminModal()">&times;</button>
+        </div>
+        <div id="admin-login-section">
+            <div class="admin-form-group">
+                <label>Nhập mật khẩu quản trị (Mặc định: 1230):</label>
+                <input type="password" id="admin-pass-input" placeholder="Nhập mật khẩu...">
+            </div>
+            <button class="save-admin-btn" onclick="verifyAdminPassword()">Đăng nhập</button>
+        </div>
+        <div id="admin-settings-section" style="display: none;">
+            <div class="admin-form-group">
+                <label>Tên bài/chủ đề:</label>
+                <input type="text" id="cfg-lesson-name" value="ÔN TẬP CHƯƠNG V. TẾ BÀO">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <div class="admin-form-group" style="flex: 1;">
+                    <label>Môn học:</label>
+                    <input type="text" id="cfg-subject" value="Khoa học tự nhiên 6">
+                </div>
+                <div class="admin-form-group" style="flex: 1;">
+                    <label>Khối lớp:</label>
+                    <input type="text" id="cfg-grade" value="6">
+                </div>
+            </div>
+            <div class="admin-form-group">
+                <label>Tổng điểm toàn phiếu:</label>
+                <input type="number" id="cfg-total-score" value="10" step="0.5">
+            </div>
+            
+            <h4 style="margin: 1.2rem 0 0.5rem 0; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 0.5rem;">Cấu hình các phần (Bật/Tắt & Điểm)</h4>
+            
+            <div class="admin-row" id="row-cfg-mcq">
+                <div><b>1. Trắc nghiệm</b></div>
+                <div><input type="number" id="cfg-mcq-count" value="4" min="0" placeholder="Số câu"></div>
+                <div><input type="number" id="cfg-mcq-score" value="2.0" step="0.25" min="0" placeholder="Điểm"></div>
+                <div><label class="switch"><input type="checkbox" id="cfg-mcq-enable" checked onchange="toggleSectionRow('mcq')"><span class="slider"></span></label></div>
+            </div>
+            
+            <div class="admin-row" id="row-cfg-fill">
+                <div><b>2. Điền khuyết</b></div>
+                <div><input type="number" id="cfg-fill-count" value="3" min="0" placeholder="Số câu"></div>
+                <div><input type="number" id="cfg-fill-score" value="1.5" step="0.25" min="0" placeholder="Điểm"></div>
+                <div><label class="switch"><input type="checkbox" id="cfg-fill-enable" checked onchange="toggleSectionRow('fill')"><span class="slider"></span></label></div>
+            </div>
+
+            <div class="admin-row" id="row-cfg-tf">
+                <div><b>3. Đúng / Sai</b></div>
+                <div><input type="number" id="cfg-tf-count" value="3" min="0" placeholder="Số câu"></div>
+                <div><input type="number" id="cfg-tf-score" value="1.5" step="0.25" min="0" placeholder="Điểm"></div>
+                <div><label class="switch"><input type="checkbox" id="cfg-tf-enable" checked onchange="toggleSectionRow('tf')"><span class="slider"></span></label></div>
+            </div>
+
+            <div class="admin-row" id="row-cfg-match">
+                <div><b>4. Nối cột</b></div>
+                <div><input type="number" id="cfg-match-count" value="3" min="0" placeholder="Số câu"></div>
+                <div><input type="number" id="cfg-match-score" value="1.5" step="0.25" min="0" placeholder="Điểm"></div>
+                <div><label class="switch"><input type="checkbox" id="cfg-match-enable" checked onchange="toggleSectionRow('match')"><span class="slider"></span></label></div>
+            </div>
+
+            <div class="admin-row" id="row-cfg-drag">
+                <div><b>5. Kéo thả ảnh</b></div>
+                <div><input type="number" id="cfg-drag-count" value="5" min="0" placeholder="Số câu"></div>
+                <div><input type="number" id="cfg-drag-score" value="2.0" step="0.25" min="0" placeholder="Điểm"></div>
+                <div><label class="switch"><input type="checkbox" id="cfg-drag-enable" checked onchange="toggleSectionRow('drag')"><span class="slider"></span></label></div>
+            </div>
+
+            <div class="admin-row" id="row-cfg-video">
+                <div><b>6. Video + Điền khuyết</b></div>
+                <div><input type="number" id="cfg-video-count" value="2" min="0" placeholder="Số câu"></div>
+                <div><input type="number" id="cfg-video-score" value="1.5" step="0.25" min="0" placeholder="Điểm"></div>
+                <div><label class="switch"><input type="checkbox" id="cfg-video-enable" checked onchange="toggleSectionRow('video')"><span class="slider"></span></label></div>
+            </div>
+            
+            <p id="admin-score-warning" style="color: #ef4444; font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: none;">
+                ⚠️ Cảnh báo: Tổng điểm các phần đang bật không bằng tổng điểm toàn phiếu!
+            </p>
+
+            <h4 style="margin: 1.2rem 0 0.5rem 0; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 0.5rem;">Cấu hình Đa phương tiện</h4>
+            
+            <div class="admin-form-group">
+                <label>URL Video YouTube (Embed):</label>
+                <input type="text" id="cfg-video-url" value="https://www.youtube.com/embed/zaLPL8KqFJ0">
+            </div>
+            
+            <div class="admin-form-group">
+                <label>Ảnh cho phần Kéo thả (Tải lên thay thế nếu cần):</label>
+                <input type="file" id="cfg-image-file" accept="image/*" onchange="previewImageFile(event)">
+            </div>
+
+            <button class="save-admin-btn" onclick="saveAdminSettings()">Lưu Cấu Hình</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const dbMCQ = [
+        { q: "Nhà khoa học nào đã sử dụng kính hiển vi đơn giản để quan sát tế bào từ lát mỏng bần vào năm 1665?", options: ["Robert Hooke", "Antonie van Leeuwenhoek", "Matthias Schleiden", "Theodor Schwann"], answer: 0 },
+        { q: "Sự kiện nào đánh dấu sự hình thành một tế bào mới từ một tế bào mẹ ban đầu?", options: ["Tế bào hấp thụ chất dinh dưỡng.", "Tế bào thực hiện trao đổi chất.", "Sự sinh sản (phân chia) của tế bào.", "Tế bào tổng hợp protein."], answer: 2 },
+        { q: "Thành phần nào KHÔNG có ở tế bào động vật nhưng lại có ở tế bào thực vật?", options: ["Màng tế bào", "Tế bào chất", "Thành tế bào", "Ti thể"], answer: 2 },
+        { q: "Nhân tế bào có chức năng chính là gì?", options: ["Bảo vệ và quy định hình dạng tế bào.", "Thực hiện chức năng hô hấp tế bào.", "Là trung tâm điều khiển các hoạt động sống của tế bào.", "Thu nhận năng lượng ánh sáng để quang hợp."], answer: 2 }
+    ];
+
+    const dbFill = [
+        { text: "Khi tế bào lớn lên, thể tích tăng nhanh hơn nhiều so với <input type='text' class='fill-input' data-ans='diện tích'> bề mặt.", answer: "diện tích" },
+        { text: "Tế bào vi khuẩn là đại diện tiêu biểu của nhóm tế bào <input type='text' class='fill-input' data-ans='nhân sơ'>.", answer: "nhân sơ" },
+        { text: "Sự lớn lên của hầu hết các sinh vật đa bào chủ yếu là do sự tăng lên về kích thước và <input type='text' class='fill-input' data-ans='số lượng'> các tế bào trong cơ thể.", answer: "số lượng" }
+    ];
+
+    const dbTF = [
+        { statement: "Tất cả các loại tế bào đều có chung một hình dạng và kích thước.", answer: false },
+        { statement: "Tế bào nhân thực đã có màng nhân bao bọc vật chất di truyền.", answer: true },
+        { statement: "Tế bào chất là vùng nằm giữa màng tế bào và nhân, là nơi diễn ra hầu hết các hoạt động sống.", answer: true }
+    ];
+
+    const dbMatch = [
+        { id: 1, term: "Màng tế bào", desc: "Bao bọc bên ngoài, tham gia trao đổi chất." },
+        { id: 2, term: "Nhân tế bào", desc: "Chứa vật chất di truyền, trung tâm điều khiển." },
+        { id: 3, term: "Thành tế bào", desc: "Quy định hình dạng và bảo vệ tế bào thực vật." }
+    ];
+
+    // Cấu hình Kéo Thả (Khu vực 5) dựa trên nhãn ảnh mới nhất
+    const dbDrag = [
+        { label: "Màng tế bào" },
+        { label: "Nhân" },
+        { label: "Tế bào chất" },
+        { label: "Không bào" },
+        { label: "Lục lạp" }
+    ];
+
+    // Cập nhật nội dung Khu vực 6 (Video + điền khuyết)
+    const dbVideoFill = [
+        {
+            text: "<b>1.</b> Khi nhận được <input type='text' class='fill-input' data-ans='thức ăn' style='min-width: 150px;'>, tế bào sẽ bắt đầu tăng kích thước và khối lượng.",
+            answer: "thức ăn"
+        },
+        {
+            text: "<b>2.</b> Nhờ quá trình phân chia (nhân đôi), tế bào giúp cơ thể lớn lên và thay thế những tế bào đã già hoặc <input type='text' class='fill-input' data-ans='chết' style='min-width: 100px;'>.",
+            answer: "chết"
+        }
+    ];
+
+    // ==========================================
+    // CẤU HÌNH LINK GOOGLE APPS SCRIPT Ở ĐÂY
+    // ==========================================
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyT6xggg6uMB5wyuARjAmqCmYtq2zCLuepIpEf-X3d2tQ9kapGsC4XsCkOxmXVhe1kR/exec";
+
+    let appConfig = {
+        lessonName: "ÔN TẬP CHƯƠNG V. TẾ BÀO",
+        subject: "Khoa học tự nhiên 6",
+        grade: "6",
+        totalScore: 10,
+        sections: {
+            mcq: { enable: true, count: 4, score: 2.0 },
+            fill: { enable: true, count: 3, score: 1.5 },
+            tf: { enable: true, count: 3, score: 1.5 },
+            match: { enable: true, count: 3, score: 1.5 },
+            drag: { enable: true, count: 5, score: 2.0 },
+            video: { enable: true, count: 2, score: 1.5 }
+        },
+        dragImageUrl: null,
+        videoUrl: "https://www.youtube.com/embed/zaLPL8KqFJ0" // Đường link được cập nhật
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadConfigFromStorage();
+        applyConfigToUI();
+        renderAllSections();
+    });
+
+    function renderAllSections() {
+        document.getElementById('header-title').innerText = appConfig.lessonName;
+        document.getElementById('header-subtitle').innerText = `Môn: ${appConfig.subject} | Lớp: ${appConfig.grade}`;
+
+        // 1. MCQ
+        const secMCQ = document.getElementById('sec-mcq');
+        if (appConfig.sections.mcq.enable) {
+            secMCQ.classList.remove('hidden');
+            document.getElementById('badge-mcq').innerText = `Điểm tối đa: ${appConfig.sections.mcq.score}`;
+            const container = document.getElementById('mcq-container');
+            container.innerHTML = '';
+            for (let i = 0; i < Math.min(appConfig.sections.mcq.count, dbMCQ.length); i++) {
+                let html = `<div class="question-item" data-qindex="${i}"><div class="question-title">Câu ${i+1}: ${dbMCQ[i].q}</div><div class="options-grid">`;
+                dbMCQ[i].options.forEach((opt, optIdx) => {
+                    html += `<label class="option-label"><input type="radio" name="mcq_${i}" value="${optIdx}"><span>${opt}</span></label>`;
+                });
+                container.innerHTML += html + `</div></div>`;
+            }
+        } else { secMCQ.classList.add('hidden'); }
+
+        // 2. Fill
+        const secFill = document.getElementById('sec-fill');
+        if (appConfig.sections.fill.enable) {
+            secFill.classList.remove('hidden');
+            document.getElementById('badge-fill').innerText = `Điểm tối đa: ${appConfig.sections.fill.score}`;
+            const container = document.getElementById('fill-container');
+            container.innerHTML = '';
+            for (let i = 0; i < Math.min(appConfig.sections.fill.count, dbFill.length); i++) {
+                container.innerHTML += `<div class="fill-container-item"><b>${i+1}.</b> ${dbFill[i].text}</div>`;
+            }
+        } else { secFill.classList.add('hidden'); }
+
+        // 3. TF
+        const secTF = document.getElementById('sec-tf');
+        if (appConfig.sections.tf.enable) {
+            secTF.classList.remove('hidden');
+            document.getElementById('badge-tf').innerText = `Điểm tối đa: ${appConfig.sections.tf.score}`;
+            const container = document.getElementById('tf-container');
+            container.innerHTML = '';
+            for (let i = 0; i < Math.min(appConfig.sections.tf.count, dbTF.length); i++) {
+                container.innerHTML += `<tr data-tfindex="${i}">
+                    <td class="text-center"><b>${i+1}</b></td><td>${dbTF[i].statement}</td>
+                    <td class="text-center"><input type="radio" name="tf_${i}" value="true" style="transform: scale(1.3); cursor:pointer;"></td>
+                    <td class="text-center"><input type="radio" name="tf_${i}" value="false" style="transform: scale(1.3); cursor:pointer;"></td>
+                </tr>`;
+            }
+        } else { secTF.classList.add('hidden'); }
+
+        // 4. Match
+        const secMatch = document.getElementById('sec-match');
+        if (appConfig.sections.match.enable) {
+            secMatch.classList.remove('hidden');
+            document.getElementById('badge-match').innerText = `Điểm tối đa: ${appConfig.sections.match.score}`;
+            const container = document.getElementById('match-container');
+            let count = Math.min(appConfig.sections.match.count, dbMatch.length);
+            let colAHTML = `<div class="match-col"><h4>Khái niệm (Cột A)</h4>`;
+            let colBHTML = `<div class="match-col"><h4>Đặc điểm (Cột B)</h4>`;
+            let shuffledB = [...dbMatch].slice(0, count).sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < count; i++) { colAHTML += `<div class="match-item-a"><span><b>${i+1}.</b> ${dbMatch[i].term}</span></div>`; }
+            for (let i = 0; i < count; i++) {
+                let opts = `<option value="">-- Chọn --</option>`;
+                dbMatch.slice(0, count).forEach((item, idx) => { opts += `<option value="${item.id}">${idx+1}</option>`; });
+                colBHTML += `<div class="match-item-b"><span style="flex: 1;">${shuffledB[i].desc}</span><select data-match-id="${shuffledB[i].id}" class="match-select">${opts}</select></div>`;
+            }
+            container.innerHTML = colAHTML + `</div>` + colBHTML + `</div>`;
+        } else { secMatch.classList.add('hidden'); }
+
+        // 5. Drag Drop
+        const secDrag = document.getElementById('sec-drag');
+        if (appConfig.sections.drag.enable) {
+            secDrag.classList.remove('hidden');
+            document.getElementById('badge-drag').innerText = `Điểm tối đa: ${appConfig.sections.drag.score}`;
+            
+            if (appConfig.dragImageUrl) {
+                document.getElementById('drag-target-image').src = appConfig.dragImageUrl;
+            }
+
+            const itemsBox = document.getElementById('draggable-items-box');
+            itemsBox.innerHTML = '';
+            let shuffledItems = [...dbDrag].sort(() => Math.random() - 0.5);
+            shuffledItems.forEach((item) => {
+                itemsBox.innerHTML += `<div class="drag-item" draggable="true" data-val="${item.label}">${item.label}</div>`;
+            });
+
+            // Reset Drops
+            document.querySelectorAll('.drop-zone-overlay').forEach(el => {
+                el.querySelector('.dropped-content').innerText = 'Thả hoặc bấm chọn';
+                el.removeAttribute('data-current');
+                el.style.backgroundColor = ''; el.style.borderColor = '';
+                let msg = el.querySelector('.drop-zone-msg'); if(msg) msg.remove();
+            });
+            setTimeout(setupDragAndDropEvents, 100); 
+        } else { secDrag.classList.add('hidden'); }
+
+        // 6. Video Fill
+        const secVideo = document.getElementById('sec-video');
+        if (appConfig.sections.video.enable) {
+            secVideo.classList.remove('hidden');
+            document.getElementById('badge-video').innerText = `Điểm tối đa: ${appConfig.sections.video.score}`;
+            
+            const videoIframe = document.getElementById('lesson-video');
+            if (videoIframe && appConfig.videoUrl) { videoIframe.src = appConfig.videoUrl; }
+
+            const container = document.getElementById('video-fill-container');
+            container.innerHTML = '';
+            for (let i = 0; i < Math.min(appConfig.sections.video.count, dbVideoFill.length); i++) {
+                container.innerHTML += `<div class="fill-container-item">${dbVideoFill[i].text}</div>`;
+            }
+        } else { secVideo.classList.add('hidden'); }
+    }
+
+    let selectedDragItem = null;
+
+    function setupDragAndDropEvents() {
+        const items = document.querySelectorAll('.drag-item');
+        items.forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.getAttribute('data-val'));
+                selectedDragItem = e.target;
+            });
+            item.addEventListener('click', (e) => {
+                items.forEach(i => i.classList.remove('selected'));
+                e.target.classList.add('selected');
+                selectedDragItem = e.target;
+            });
+        });
+
+        const zones = document.querySelectorAll('.drop-zone-overlay');
+        zones.forEach(zone => {
+            zone.addEventListener('click', () => {
+                if (selectedDragItem) {
+                    assignItemToZone(selectedDragItem.getAttribute('data-val'), zone);
+                    selectedDragItem.classList.remove('selected');
+                    selectedDragItem = null; 
+                }
+            });
+        });
+    }
+
+    function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+    function removeDropStyle(e) { e.currentTarget.classList.remove('drag-over'); }
+    function dropItem(e) {
+        e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+        const val = e.dataTransfer.getData('text/plain');
+        if (val) assignItemToZone(val, e.currentTarget);
+    }
+    
+    function assignItemToZone(val, zone) {
+        zone.querySelector('.dropped-content').innerText = val;
+        zone.setAttribute('data-current', val);
+    }
+
+    async function submitAndGrade() {
+        const name = document.getElementById('student-name').value.trim();
+        const className = document.getElementById('student-class').value.trim();
+
+        if (!name || !className) {
+            alert('Vui lòng nhập đầy đủ Họ và tên học sinh cùng Lớp trước khi nộp bài!');
+            return;
+        }
+
+        let totalEarned = 0; 
+        
+        // Các biến đếm số lượng câu hỏi để gửi về Google Sheet
+        let totalQuestions = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let unansweredCount = 0;
+        
+        // Reset old styles
+        document.querySelectorAll('.correct-answer, .incorrect-answer, .unanswered').forEach(el => el.classList.remove('correct-answer', 'incorrect-answer', 'unanswered'));
+        document.querySelectorAll('.feedback-icon, .correct-text, .drop-zone-msg').forEach(el => el.remove());
+
+        // 1. MCQ
+        if (appConfig.sections.mcq.enable) {
+            let correct = 0; const count = Math.min(appConfig.sections.mcq.count, dbMCQ.length);
+            totalQuestions += count;
+            document.querySelectorAll('#mcq-container .question-item').forEach((item, idx) => {
+                if (idx >= count) return;
+                const sel = item.querySelector(`input[name="mcq_${idx}"]:checked`);
+                const correctIdx = dbMCQ[idx].answer;
+                const correctLabel = item.querySelectorAll('.option-label')[correctIdx];
+                correctLabel.classList.add('correct-answer');
+                correctLabel.insertAdjacentHTML('beforeend', `<span class="feedback-icon" style="color: #065f46;"> ✓</span>`);
+
+                if (sel) {
+                    if (parseInt(sel.value) === correctIdx) { correct++; correctCount++; }
+                    else {
+                        incorrectCount++;
+                        const selLabel = sel.closest('.option-label');
+                        selLabel.classList.add('incorrect-answer');
+                        selLabel.insertAdjacentHTML('beforeend', `<span class="feedback-icon" style="color: #991b1b;"> ✗</span>`);
+                    }
+                } else { unansweredCount++; item.querySelector('.options-grid').classList.add('unanswered'); }
+            });
+            totalEarned += count ? (correct / count) * appConfig.sections.mcq.score : 0;
+        }
+
+        // 2 & 6. Fill & Video
+        const gradeFillInputs = (containerId, score, countLimit) => {
+            let correct = 0; const inputs = document.querySelectorAll(`${containerId} .fill-input`);
+            totalQuestions += countLimit;
+            inputs.forEach((inp, idx) => {
+                if(idx >= countLimit) return;
+                const uVal = inp.value.trim().toLowerCase(); const cVal = inp.getAttribute('data-ans').toLowerCase();
+                if (uVal === "") { unansweredCount++; inp.classList.add('unanswered'); inp.insertAdjacentHTML('afterend', `<span class="correct-text">(ĐA: ${cVal})</span>`); }
+                else if (uVal === cVal) { correct++; correctCount++; inp.classList.add('correct-answer'); }
+                else { incorrectCount++; inp.classList.add('incorrect-answer'); inp.insertAdjacentHTML('afterend', `<span class="correct-text">(Sửa: ${cVal})</span>`); }
+            });
+            return countLimit ? (correct / countLimit) * score : 0;
+        };
+
+        if (appConfig.sections.fill.enable) totalEarned += gradeFillInputs('#fill-container', appConfig.sections.fill.score, Math.min(appConfig.sections.fill.count, dbFill.length));
+        if (appConfig.sections.video.enable) totalEarned += gradeFillInputs('#video-fill-container', appConfig.sections.video.score, Math.min(appConfig.sections.video.count, dbVideoFill.length));
+
+        // 3. TF
+        if (appConfig.sections.tf.enable) {
+            let correct = 0; const count = Math.min(appConfig.sections.tf.count, dbTF.length);
+            totalQuestions += count;
+            for (let i = 0; i < count; i++) {
+                const sel = document.querySelector(`input[name="tf_${i}"]:checked`);
+                const row = document.querySelector(`tr[data-tfindex="${i}"]`);
+                if (sel) {
+                    if (sel.value === dbTF[i].answer.toString()) { correct++; correctCount++; row.style.background = '#d1fae5'; }
+                    else { incorrectCount++; row.style.background = '#fee2e2'; }
+                } else { unansweredCount++; row.style.background = '#fef3c7'; }
+            }
+            totalEarned += count ? (correct / count) * appConfig.sections.tf.score : 0;
+        }
+
+        // 4. Match
+        if (appConfig.sections.match.enable) {
+            let correct = 0; const count = Math.min(appConfig.sections.match.count, dbMatch.length);
+            totalQuestions += count;
+            document.querySelectorAll('.match-select').forEach((sel, idx) => {
+                if (idx >= count) return;
+                const pId = parseInt(sel.getAttribute('data-match-id'));
+                if (sel.value === "") { unansweredCount++; sel.style.background = '#fef3c7'; }
+                else if (parseInt(sel.value) === pId) { correct++; correctCount++; sel.style.background = '#d1fae5'; }
+                else { incorrectCount++; sel.style.background = '#fee2e2'; }
+            });
+            totalEarned += count ? (correct / count) * appConfig.sections.match.score : 0;
+        }
+
+        // 5. Drag
+        if (appConfig.sections.drag.enable) {
+            let correct = 0; const zones = document.querySelectorAll('.drop-zone-overlay');
+            totalQuestions += zones.length;
+            zones.forEach(zone => {
+                const matchVal = zone.getAttribute('data-match'); const currentVal = zone.getAttribute('data-current');
+                if (!currentVal) { unansweredCount++; zone.style.background = '#fef3c7'; }
+                else if (currentVal === matchVal) { correct++; correctCount++; zone.style.background = '#d1fae5'; zone.style.borderColor = '#10b981'; }
+                else { 
+                    incorrectCount++;
+                    zone.style.background = '#fee2e2'; zone.style.borderColor = '#ef4444'; 
+                    zone.innerHTML += `<div class="drop-zone-msg" style="color:#991b1b; font-size:0.85rem; margin-top: 0.5rem; font-weight: 500;">ĐA: ${matchVal}</div>`;
+                }
+            });
+            totalEarned += zones.length ? (correct / zones.length) * appConfig.sections.drag.score : 0;
+        }
+
+        if (unansweredCount > 0) alert('Lưu ý: Có câu chưa hoàn thành. Hệ thống vẫn chấm những câu đã làm.');
+        let finalScore = Math.min(Math.round(totalEarned * 100) / 100, appConfig.totalScore);
+        
+        const scoreBox = document.getElementById('score-result-box');
+        scoreBox.style.display = 'block';
+        document.getElementById('score-display').innerText = `${finalScore} / ${appConfig.totalScore} điểm`;
+        window.scrollTo({ top: scoreBox.offsetTop - 50, behavior: 'smooth' });
+
+        // ===============================================
+        // GỬI DỮ LIỆU VỀ GOOGLE SHEETS
+        // ===============================================
+        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "DÁN_LINK_WEB_APP_CỦA_THẦY_CÔ_VÀO_ĐÂY") {
+            const btn = document.querySelector('.submit-btn');
+            const originalBtnHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu điểm...';
+            btn.disabled = true;
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Bỏ qua chặn bảo mật CORS của trình duyệt
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        className: className,
+                        score: finalScore,
+                        correctCount: correctCount,
+                        incorrectCount: incorrectCount,
+                        unansweredCount: unansweredCount,
+                        totalCount: totalQuestions
+                    })
+                });
+                
+                // Hiển thị thông báo thành công
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã nộp kết quả thành công!';
+                btn.style.background = 'linear-gradient(135deg, #10b981, #059669)'; // Đổi sang màu xanh lá
+                
+                setTimeout(() => { 
+                    btn.innerHTML = originalBtnHTML; 
+                    btn.disabled = false; 
+                    btn.style.background = '';
+                }, 4000);
+
+            } catch (e) {
+                console.error("Lỗi khi gửi Google Sheets:", e);
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Lỗi mạng, chưa lưu điểm';
+                setTimeout(() => { btn.innerHTML = originalBtnHTML; btn.disabled = false; }, 4000);
+            }
+        }
+    }
+
+    function openAdminModal() { document.getElementById('admin-modal').style.display = 'flex'; document.getElementById('admin-pass-input').value = ''; }
+    function closeAdminModal() { document.getElementById('admin-modal').style.display = 'none'; document.getElementById('admin-login-section').style.display = 'block'; document.getElementById('admin-settings-section').style.display = 'none'; }
+    function verifyAdminPassword() {
+        if (document.getElementById('admin-pass-input').value === '1230') {
+            document.getElementById('admin-login-section').style.display = 'none';
+            document.getElementById('admin-settings-section').style.display = 'block'; checkScoreSum();
+        } else { alert('Mật khẩu sai!'); }
+    }
+
+    function toggleSectionRow(secKey) {
+        const isEnabled = document.getElementById(`cfg-${secKey}-enable`).checked;
+        const row = document.getElementById(`row-cfg-${secKey}`);
+        row.classList.toggle('disabled', !isEnabled);
+        row.querySelectorAll('input[type="number"]').forEach(inp => inp.disabled = !isEnabled);
+        checkScoreSum();
+    }
+
+    function checkScoreSum() {
+        let sum = ['mcq', 'fill', 'tf', 'match', 'drag', 'video'].reduce((acc, sec) => {
+            let cb = document.getElementById(`cfg-${sec}-enable`);
+            return acc + (cb && cb.checked ? (parseFloat(document.getElementById(`cfg-${sec}-score`).value) || 0) : 0);
+        }, 0);
+        const total = parseFloat(document.getElementById('cfg-total-score').value) || 0;
+        document.getElementById('admin-score-warning').style.display = Math.abs(sum - total) > 0.01 ? 'block' : 'none';
+    }
+
+    function saveAdminSettings() {
+        appConfig.lessonName = document.getElementById('cfg-lesson-name').value;
+        appConfig.subject = document.getElementById('cfg-subject').value;
+        appConfig.grade = document.getElementById('cfg-grade').value;
+        appConfig.totalScore = parseFloat(document.getElementById('cfg-total-score').value) || 10;
+        const vUrl = document.getElementById('cfg-video-url').value.trim(); if(vUrl) appConfig.videoUrl = vUrl;
+
+        ['mcq', 'fill', 'tf', 'match', 'drag', 'video'].forEach(sec => {
+            if(document.getElementById(`cfg-${sec}-enable`)) {
+                appConfig.sections[sec].enable = document.getElementById(`cfg-${sec}-enable`).checked;
+                appConfig.sections[sec].count = parseInt(document.getElementById(`cfg-${sec}-count`).value) || 0;
+                appConfig.sections[sec].score = parseFloat(document.getElementById(`cfg-${sec}-score`).value) || 0;
+            }
+        });
+        saveConfigToStorage(); applyConfigToUI(); renderAllSections(); closeAdminModal(); alert('Đã cập nhật!');
+    }
+
+    function applyConfigToUI() {
+        document.getElementById('cfg-lesson-name').value = appConfig.lessonName;
+        document.getElementById('cfg-subject').value = appConfig.subject;
+        document.getElementById('cfg-grade').value = appConfig.grade;
+        document.getElementById('cfg-total-score').value = appConfig.totalScore;
+        if(appConfig.videoUrl) document.getElementById('cfg-video-url').value = appConfig.videoUrl;
+
+        ['mcq', 'fill', 'tf', 'match', 'drag', 'video'].forEach(sec => {
+            if(document.getElementById(`cfg-${sec}-enable`)) {
+                document.getElementById(`cfg-${sec}-enable`).checked = appConfig.sections[sec].enable;
+                document.getElementById(`cfg-${sec}-count`).value = appConfig.sections[sec].count;
+                document.getElementById(`cfg-${sec}-score`).value = appConfig.sections[sec].score;
+                toggleSectionRow(sec);
+            }
+        });
+    }
+
+    function previewImageFile(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) { appConfig.dragImageUrl = e.target.result; document.getElementById('drag-target-image').src = e.target.result; }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function saveConfigToStorage() { try { localStorage.setItem('pht_tebao_config_v3', JSON.stringify(appConfig)); } catch (e) {} }
+    function loadConfigFromStorage() {
+        try {
+            const saved = localStorage.getItem('pht_tebao_config_v3');
+            if (saved) { const parsed = JSON.parse(saved); appConfig = { ...appConfig, ...parsed, sections: { ...appConfig.sections, ...parsed.sections } }; }
+        } catch (e) {}
+    }
+</script>
+
+</body>
+</html>
